@@ -60,7 +60,7 @@ function Homepage() {
       <nav className="navbar px-6 py-3 bg-gray-900/80 backdrop-blur-md border-b border-gray-700 shadow-lg">
         <div className="flex-1">
           <NavLink to="/" className="text-2xl font-semibold text-primary hover:text-primary-focus transition">
-            LeetCode
+            CodeMentor
           </NavLink>
         </div>
         <div className="flex-none">
