@@ -46,7 +46,7 @@
 // }
 
 // InitializeConnection();
-console.log("🔥 THIS FILE IS RUNNING");
+
 
 
 const express = require("express");
@@ -99,11 +99,10 @@ const InitializeConnection = async () => {
 
 InitializeConnection();
 
-if (process.env.VERCEL !== "1") {
-  app.listen(7001, () => {
-    console.log("server listening at port 7001");
-  });
-}
+const PORT = process.env.PORT || 7001;
+app.listen(PORT, () => {
+  console.log(`server listening on ${PORT}`);
+});
 
 
 module.exports = app;
