@@ -28,7 +28,13 @@ const register=async(req,res)=>{
             role:user.role
         }
 
-          res.cookie('token',token,{maxAge: 60*60*1000})
+          res.cookie("token", token, {
+  maxAge: 60 * 60 * 1000,
+  httpOnly: true,
+  secure: true,
+  sameSite: "none",
+});
+
           res.status(201).json({
             user:reply,
             message:"user register successfully"
@@ -62,7 +68,13 @@ const login=async(req,res)=>{
 
          const token=jwt.sign({_id:user._id,emailId:emailId,role:user.role},process.env.JWT_KEY,{expiresIn:60*60});
 
-          res.cookie('token',token,{maxAge: 60*60*1000});
+          res.cookie("token", token, {
+  maxAge: 60 * 60 * 1000,
+  httpOnly: true,
+  secure: true,
+  sameSite: "none",
+});
+
           res.status(200).json({
             user:reply,
             message:"user login successfully"
@@ -91,8 +103,13 @@ const logout=async(req,res)=>{
        await redisClient.set(`token:${token}`, "Blocked");
    
       await redisClient.expireAt(`token:${token}`,parseInt(payload.exp));
+res.cookie("token", "", {
+  expires: new Date(0),
+  httpOnly: true,
+  secure: true,
+  sameSite: "none",
+});
 
-       res.cookie("token",null,{expires: new Date(Date.now())});
        res.send("Logged Out Succesfully");
 
     }
@@ -117,7 +134,13 @@ const adminRegister=async(req,res)=>{
           const user=await User.create(req.body);
           const token=jwt.sign({_id:user._id,emailId:emailId ,role:user.role},process.env.JWT_KEY,{expiresIn:60*60});
 
-          res.cookie('token',token,{maxAge: 60*60*1000})
+         res.cookie("token", token, {
+  maxAge: 60 * 60 * 1000,
+  httpOnly: true,
+  secure: true,
+  sameSite: "none",
+});
+
           res.status(201).send("user registered successfully");
     }
     catch(err){
