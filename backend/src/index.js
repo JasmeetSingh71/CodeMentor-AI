@@ -46,6 +46,8 @@
 // }
 
 // InitializeConnection();
+console.log("🔥 THIS FILE IS RUNNING");
+
 
 const express = require("express");
 const app = express();
@@ -81,6 +83,11 @@ app.use("/ai", aiRouter);
 app.use("/video", videoRouter);
 
 
+app.get("/api/health", (req, res) => {
+  res.json({ ok: true });
+});
+
+
 const InitializeConnection = async () => {
   try {
     await Promise.all([main(), redisClient.connect()]);
@@ -93,9 +100,8 @@ const InitializeConnection = async () => {
 InitializeConnection();
 
 if (process.env.VERCEL !== "1") {
-  const PORT = process.env.PORT || 7001;
-  app.listen(PORT, () => {
-    console.log(`server listening at port ${PORT}`);
+  app.listen(7001, () => {
+    console.log("server listening at port 7001");
   });
 }
 
