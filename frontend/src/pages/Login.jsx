@@ -106,6 +106,11 @@ function Login() {
                 </>
               ) : 'Login'}
             </button>
+            {error && (
+  <div className="mt-4 rounded-lg border border-red-500 bg-red-500/10 px-4 py-3 text-center text-red-300">
+    {error}
+  </div>
+)}
           </div>
         </form>
 
