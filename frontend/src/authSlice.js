@@ -118,10 +118,11 @@ const authSlice = createSlice({
       })
       .addCase(checkAuth.rejected, (state, action) => {
         state.loading = false;
-        state.error = action.payload || 'Something went wrong';
+        state.error = null;
         state.isAuthenticated = false;
         state.user = null;
       })
+      // action.payload || 'Something went wrong';
   
       // Logout User Cases
       .addCase(logoutUser.pending, (state) => {
