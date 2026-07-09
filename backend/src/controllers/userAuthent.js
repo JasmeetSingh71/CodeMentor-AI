@@ -50,49 +50,108 @@ const register=async(req,res)=>{
 
 // send("error: "+err);
 
-const login=async(req,res)=>{
-    try{
-        const{emailId,password}=req.body;
 
-        if(!emailId)
-            throw new Error("invalid credentials");
-        if(!password)
-            throw new Error("invalid credentials");
-          const user= await User.findOne({emailId});
+const login = async (req, res) => {
+  try {
+    const { emailId, password } = req.body;
 
-         const match= await bcrypt.compare(password,user.password);
-
-         if(!match)
-            throw new Error("invalid creddentials");
-        const reply={
-            firstName:user.firstName,
-            emailId:user.emailId,
-            _id:user._id,
-             role:user.role
-        }
-
-         const token=jwt.sign({_id:user._id,emailId:emailId,role:user.role},process.env.JWT_KEY,{expiresIn:60*60});
-
-          res.cookie("token", token, {
-  maxAge: 60 * 60 * 1000,
-  httpOnly: true,
-  secure: true,
-  sameSite: "none",
-});
-
-          res.status(200).json({
-            user:reply,
-            message:"user login successfully"
-          })
-
-
+    if (!emailId || !password) {
+      throw new Error("Invalid email or password");
     }
-    catch(err){
-      return res.status(400).json({
-    message: err.message,
-  });
+
+    const user = await User.findOne({ emailId });
+
+    // Check whether user exists
+    if (!user) {
+      throw new Error("Invalid email or password");
     }
-}
+
+    // Check password
+    const match = await bcrypt.compare(password, user.password);
+
+    if (!match) {
+      throw new Error("Invalid email or password");
+    }
+
+    const reply = {
+      firstName: user.firstName,
+      emailId: user.emailId,
+      _id: user._id,
+      role: user.role,
+    };
+
+    const token = jwt.sign(
+      {
+        _id: user._id,
+        emailId: user.emailId,
+        role: user.role,
+      },
+      process.env.JWT_KEY,
+      { expiresIn: 60 * 60 }
+    );
+
+    res.cookie("token", token, {
+      maxAge: 60 * 60 * 1000,
+      httpOnly: true,
+      secure: true,
+      sameSite: "none",
+    });
+
+    return res.status(200).json({
+      user: reply,
+      message: "User logged in successfully",
+    });
+
+  } catch (err) {
+    return res.status(400).json({
+      message: err.message,
+    });
+  }
+};
+
+// const login=async(req,res)=>{
+//     try{
+//         const{emailId,password}=req.body;
+
+//         if(!emailId)
+//             throw new Error("invalid credentials");
+//         if(!password)
+//             throw new Error("invalid credentials");
+//           const user= await User.findOne({emailId});
+
+//          const match= await bcrypt.compare(password,user.password);
+
+//          if(!match)
+//             throw new Error("invalid creddentials");
+//         const reply={
+//             firstName:user.firstName,
+//             emailId:user.emailId,
+//             _id:user._id,
+//              role:user.role
+//         }
+
+//          const token=jwt.sign({_id:user._id,emailId:emailId,role:user.role},process.env.JWT_KEY,{expiresIn:60*60});
+
+//           res.cookie("token", token, {
+//   maxAge: 60 * 60 * 1000,
+//   httpOnly: true,
+//   secure: true,
+//   sameSite: "none",
+// });
+
+//           res.status(200).json({
+//             user:reply,
+//             message:"user login successfully"
+//           })
+
+
+//     }
+//     catch(err){
+//       return res.status(400).json({
+//     message: err.message,
+//   });
+//     }
+// }
 
 //logout feature
 
