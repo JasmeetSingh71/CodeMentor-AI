@@ -16,7 +16,7 @@ function Signup() {
   const [showPassword, setShowPassword] = useState(false);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { isAuthenticated, loading } = useSelector((state) => state.auth);
+  const { isAuthenticated, loading ,error,} = useSelector((state) => state.auth);
 
   const {
     register,
@@ -122,6 +122,11 @@ function Signup() {
             >
               {loading ? 'Signing Up...' : 'Sign Up'}
             </button>
+            {error && (
+  <div className="mt-4 rounded-lg border border-red-500 bg-red-500/10 px-4 py-3 text-center text-red-300">
+    {error}
+  </div>
+)}
           </div>
         </form>
 

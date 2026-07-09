@@ -41,9 +41,14 @@ const register=async(req,res)=>{
           })
     }
     catch(err){
-       res.status(400).send("error: "+err);
+       res.status(400).json({
+    message: err.message,
+  });
+
     }
 }
+
+// send("error: "+err);
 
 const login=async(req,res)=>{
     try{

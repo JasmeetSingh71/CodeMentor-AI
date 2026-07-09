@@ -9,14 +9,14 @@ export const registerUser = createAsyncThunk(
       return response.data.user;
     } catch (error) {
       return rejectWithValue(
-        error.response?.data?.message ||
-        error.response?.data ||
-        "Registration failed. Please try again."
+        error.response?.data?.message ??
+        error.response?.data ??
+        error.message ??
+        "Registration failed"
       );
     }
   }
 );
-
 
 export const loginUser = createAsyncThunk(
   "auth/login",
@@ -82,7 +82,7 @@ const authSlice = createSlice({
       })
       .addCase(registerUser.rejected, (state, action) => {
         state.loading = false;
-        state.error = action.payload?.message || 'Something went wrong';
+        state.error = action.payload  || 'Something went wrong';
         state.isAuthenticated = false;
         state.user = null;
       })
