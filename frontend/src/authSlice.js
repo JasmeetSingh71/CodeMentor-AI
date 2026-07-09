@@ -41,7 +41,9 @@ export const checkAuth = createAsyncThunk(
       const { data } = await axiosClient.get('/user/check');
       return data.user;
     } catch (error) {
-      return rejectWithValue(error);
+     return rejectWithValue(
+    error.response?.data?.message || error.message
+  );
     }
   }
 );
@@ -116,7 +118,7 @@ const authSlice = createSlice({
       })
       .addCase(checkAuth.rejected, (state, action) => {
         state.loading = false;
-        state.error = action.payload?.message || 'Something went wrong';
+        state.error = action.payload || 'Something went wrong';
         state.isAuthenticated = false;
         state.user = null;
       })
