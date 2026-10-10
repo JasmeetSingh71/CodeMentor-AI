@@ -36,7 +36,7 @@ function Login() {
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-[#0f172a] via-[#1e293b] to-[#0f172a] p-4">
       <div className="w-full max-w-md backdrop-blur-xl bg-white/10 border border-white/10 rounded-2xl shadow-2xl p-8 transition-transform transform hover:scale-[1.02] duration-300">
         <h2 className="text-center text-4xl font-bold text-white mb-8 tracking-wide drop-shadow-[0_1px_4px_rgba(255,255,255,0.3)]">
-          Leetcode
+          Codementor AI Campus
         </h2>
 
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
